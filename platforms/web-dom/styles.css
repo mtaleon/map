@@ -361,6 +361,7 @@ main {
   color: var(--muted);
   text-align: center;
   white-space: pre-line;
+  line-height: 1.5;
 }
 
 /* Help modal styling */
