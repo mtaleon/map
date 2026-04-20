@@ -65,7 +65,7 @@ const translations = {
     'complete.time': 'Time:',
     'complete.moves': 'Moves:',
     'complete.new': 'New Map',
-    'complete.octile': 'Looking for deeper puzzles? Octile explores this style further.',
+    'complete.octile': 'This style of puzzle can go deeper.\nOctile explores it further.',
 
     // Toasts
     'toast.generating': 'Generating map...',
@@ -144,7 +144,7 @@ const translations = {
     'complete.time': '\u6642\u9593\uff1a',
     'complete.moves': '\u6b65\u6578\uff1a',
     'complete.new': '\u65b0\u5730\u5716',
-    'complete.octile': '\u5c0b\u627e\u66f4\u6df1\u5165\u7684\u8b0e\u984c\uff1fOctile \u9032\u4e00\u6b65\u63a2\u7d22\u9019\u7a2e\u98a8\u683c\u3002',
+    'complete.octile': '\u9019\u985e\u8b0e\u984c\u53ef\u4ee5\u66f4\u6df1\u5165\u3002\nOctile \u9032\u4e00\u6b65\u63a2\u7d22\u5b83\u3002',
 
     // Toasts
     'toast.generating': '\u6b63\u5728\u7522\u751f\u5730\u5716\u2026',
