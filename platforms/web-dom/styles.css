@@ -393,6 +393,20 @@ main {
   margin-bottom: 20px;
 }
 
+.help-octile {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  font-size: 0.85rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.help-octile p {
+  white-space: pre-line;
+  margin: 0;
+}
+
 /* Toast */
 #toast-container {
   position: fixed;

@@ -57,6 +57,7 @@ const translations = {
     'help.mobile.2': 'Second tap: place currently selected color',
     'help.section.approach': 'A Note on Approach',
     'help.approach': 'Take time to consider how regions relate to each other.\nSometimes a different color arrangement makes the whole map suddenly clearer.',
+    'help.octile': 'If you enjoy this style of puzzle that requires organizing relationships,\nOctile offers deeper, more structurally complex challenges.',
     'help.close': 'Close',
 
     // Completion modal
@@ -135,6 +136,7 @@ const translations = {
     'help.mobile.2': '\u518d\u6b21\u9ede\u64ca\uff1a\u653e\u7f6e\u76ee\u524d\u9078\u64c7\u7684\u984f\u8272',
     'help.section.approach': '\u5c0f\u63d0\u793a',
     'help.approach': '\u6162\u6162\u601d\u8003\u6bcf\u500b\u5340\u57df\u7684\u95dc\u4fc2\uff0c\n\u6709\u6642\u63db\u4e00\u7a2e\u984f\u8272\u914d\u7f6e\uff0c\u6574\u500b\u5730\u5716\u6703\u7a81\u7136\u8b8a\u5f97\u6e05\u695a\u3002',
+    'help.octile': '\u5982\u679c\u4f60\u559c\u6b61\u9019\u7a2e\u9700\u8981\u6574\u7406\u95dc\u4fc2\u7684\u89e3\u8b0e\u65b9\u5f0f\uff0c\nOctile \u63d0\u4f9b\u4e86\u66f4\u6df1\u5165\u3001\u7d50\u69cb\u66f4\u8907\u96dc\u7684\u62fc\u5716\u6311\u6230\u3002',
     'help.close': '\u95dc\u9589',
 
     // Completion modal
