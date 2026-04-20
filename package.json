@@ -6,9 +6,17 @@
   "scripts": {
     "build": "mkdir -p www && cp index.html app.js favicon.svg manifest.json sw.js www/ 2>/dev/null || true && cp -r core platform platforms www/",
     "dev": "npm run build && python3 -m http.server 8000 --directory www",
-    "test": "npm run build && node e2e.test.mjs"
+    "test": "npm run build && node e2e.test.mjs",
+    "android:prepare": "npm run build && npx cap sync android",
+    "android:build": "npm run android:prepare && cd android && ./gradlew assembleDebug",
+    "android:release": "npm run android:prepare && cd android && ./gradlew assembleRelease"
   },
   "keywords": ["map", "coloring", "puzzle", "game", "pwa"],
   "author": "",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@capacitor/android": "^8.3.1",
+    "@capacitor/cli": "^8.3.1",
+    "@capacitor/core": "^8.3.1"
+  }
 }
