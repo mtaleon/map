@@ -31,6 +31,78 @@ Wires together core logic, platform implementations, and event handlers. Initial
 3. Renderer subscribes to events and updates UI
 4. All state changes flow through events (GAME_STARTED, BOARD_CHANGED, COLOR_SELECTED, VALIDATION_CHANGED, GAME_COMPLETED, etc.)
 
+## Octile Universe Context (Important)
+
+This project is a **free entry game** within the Octile Universe.
+
+Its purpose is NOT to be a fully-fledged product, but to:
+- introduce logical, calm puzzle thinking
+- act as a low-friction gateway to Octile
+- respect player intelligence without aggressive engagement mechanics
+
+This means:
+
+✅ The game should feel complete enough to enjoy  
+❌ but intentionally NOT as deep, long-term, or feature-rich as Octile
+
+Any changes should reinforce Octile as the **primary destination for depth and replayability**.
+
+Any new UI text added must be reviewed against the “Calm, restrained tone” rule.
+Exclamation marks are generally discouraged across the Octile Universe.
+
+
+## Explicit Non-Goals (Do NOT add)
+
+The following are intentionally avoided in this project:
+
+- Daily / weekly challenges
+- Long-term progression systems
+- Meta unlocks or collectibles
+- Account systems or cross-session achievements
+- Competitive or time-pressure mechanics
+- Over-celebratory feedback or hype-driven UI
+
+If a feature would make this game feel like a standalone flagship product,
+it likely does NOT belong here.
+
+## UI / Tone Alignment (Octile Universe)
+
+All UI and copy changes must follow Octile Universe guidelines:
+
+Tone:
+- calm
+- restrained
+- respectful
+- non-marketing
+- non-judgmental
+
+Avoid:
+- exclamation-heavy copy
+- praise-focused messaging ("Amazing!", "You're a genius!")
+- urgency or reward-pressure language
+
+Prefer:
+- neutral statements
+- reflective feedback
+- subtle encouragement
+
+## Cross-Promotion Rules (Free Game → Octile)
+
+This game may reference Octile only in a **soft, non-intrusive way**.
+
+Rules:
+- Show at most ONE cross-promotion entry point
+- Only trigger after a satisfaction moment (e.g. game completion)
+- Never interrupt active gameplay
+- Treat Octile as a natural next step, not a call-to-action
+
+Example allowed phrasing:
+- "Looking for a deeper challenge?"
+- "Octile explores this style of puzzle further."
+
+The goal is awareness, not conversion pressure.
+
+
 ## Development Commands
 
 ### Local Development
