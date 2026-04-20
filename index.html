@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#2c3e50">
+  <meta name="description" content="Map coloring puzzle game">
+  <title>Map Coloring</title>
+  <link rel="stylesheet" href="platforms/web-dom/styles.css">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+</head>
+<body>
+  <nav id="menu-bar">
+    <div class="menu-item" id="menu-type">
+      <button class="menu-btn">Map <span class="arrow">&#9662;</span></button>
+      <div class="dropdown" id="type-dropdown">
+        <div class="dropdown-section">
+          <div class="dropdown-label">Presets</div>
+          <button class="preset-btn" data-preset="0">20&times;15, 30 regions, Easy</button>
+          <button class="preset-btn" data-preset="1">20&times;15, 30 regions, Normal</button>
+          <button class="preset-btn" data-preset="2">20&times;15, 30 regions, Hard</button>
+          <button class="preset-btn" data-preset="3">20&times;15, 30 regions, Unreasonable</button>
+          <hr>
+          <button class="preset-btn" data-preset="4">30&times;25, 75 regions, Normal</button>
+          <button class="preset-btn" data-preset="5">30&times;25, 75 regions, Hard</button>
+          <hr>
+          <button class="preset-btn" id="custom-btn">Custom&hellip;</button>
+        </div>
+      </div>
+    </div>
+    <div class="menu-item" id="menu-help">
+      <button class="menu-btn" id="help-btn">Help</button>
+    </div>
+    <div id="info-bar">
+      <span id="timer">00:00</span>
+      <span id="moves">Moves: 0</span>
+      <span id="remaining">Left: 0</span>
+    </div>
+  </nav>
+
+  <main>
+    <svg id="map-svg" xmlns="http://www.w3.org/2000/svg"></svg>
+
+    <div id="palette">
+      <button class="palette-btn active" data-color="0"></button>
+      <button class="palette-btn" data-color="1"></button>
+      <button class="palette-btn" data-color="2"></button>
+      <button class="palette-btn" data-color="3"></button>
+    </div>
+
+    <div id="controls">
+      <button id="new-btn" title="New Map (N)">New Map</button>
+      <button id="hint-btn" title="Hint (?)">Hint</button>
+      <button id="undo-btn" title="Undo (U/Z)">Undo</button>
+      <button id="redo-btn" title="Redo (Y)">Redo</button>
+      <button id="restart-btn" title="Restart (R)">Restart</button>
+    </div>
+  </main>
+
+  <!-- Custom Map Modal -->
+  <div id="custom-modal" class="modal">
+    <div class="modal-content">
+      <h2>Custom Map</h2>
+      <form id="custom-form">
+        <label>Width (px): <input type="number" id="custom-width" value="800" min="400" max="2000"></label>
+        <label>Height (px): <input type="number" id="custom-height" value="600" min="300" max="1500"></label>
+        <label>Regions: <input type="number" id="custom-regions" value="30" min="5" max="200"></label>
+        <label>Difficulty:
+          <select id="custom-difficulty">
+            <option value="EASY">Easy</option>
+            <option value="NORMAL" selected>Normal</option>
+            <option value="HARD">Hard</option>
+            <option value="UNREASONABLE">Unreasonable</option>
+          </select>
+        </label>
+        <div class="modal-actions">
+          <button type="submit" class="btn-primary">Generate</button>
+          <button type="button" class="btn-cancel" id="custom-cancel">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Help Modal -->
+  <div id="help-modal" class="modal">
+    <div class="modal-content">
+      <h2>How to Play</h2>
+      <p>Color every region on the map using 4 colors so that <strong>no two adjacent regions share the same color</strong>.</p>
+      <ul>
+        <li>Select a color from the palette below the map</li>
+        <li>Click a region to fill it with that color</li>
+        <li>Gray regions are unfilled; shaded regions are pre-filled (given)</li>
+        <li>Red-highlighted regions have conflicts (same color as a neighbor)</li>
+        <li>On mobile: tap to select, tap again to place</li>
+      </ul>
+      <h3>Keyboard Shortcuts</h3>
+      <ul>
+        <li><kbd>1-4</kbd> Select color</li>
+        <li><kbd>U</kbd> / <kbd>Z</kbd> Undo</li>
+        <li><kbd>Y</kbd> Redo</li>
+        <li><kbd>N</kbd> New map</li>
+        <li><kbd>?</kbd> Hint</li>
+        <li><kbd>R</kbd> Restart</li>
+      </ul>
+      <div class="modal-actions">
+        <button type="button" class="btn-primary" id="help-close">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Completion Modal -->
+  <div id="completion-modal" class="modal">
+    <div class="modal-content">
+      <h2>Map Completed!</h2>
+      <p>Time: <span id="completion-time">0:00</span></p>
+      <p>Moves: <span id="completion-moves">0</span></p>
+      <div class="modal-actions">
+        <button type="button" class="btn-primary" id="completion-new">New Map</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div id="toast-container"></div>
+
+  <script type="module" src="app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js').catch(err => {
+        console.log('SW registration failed:', err);
+      });
+    }
+  </script>
+</body>
+</html>

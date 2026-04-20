@@ -1,0 +1,14 @@
+{
+  "name": "map-coloring-game",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Map coloring puzzle game - fill regions with 4 colors, no adjacent same color",
+  "scripts": {
+    "build": "mkdir -p www && cp index.html app.js favicon.svg manifest.json sw.js www/ 2>/dev/null || true && cp -r core platform platforms www/",
+    "dev": "npm run build && python3 -m http.server 8000 --directory www",
+    "test": "npm run build && node e2e.test.mjs"
+  },
+  "keywords": ["map", "coloring", "puzzle", "game", "pwa"],
+  "author": "",
+  "license": "MIT"
+}
