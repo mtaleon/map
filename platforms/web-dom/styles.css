@@ -1,15 +1,16 @@
 :root {
-  --color-bg: #ffffff;
-  --color-text: #2c3e50;
-  --color-accent: #3498db;
-  --color-conflict: #e74c3c;
-  --color-preview: #e67e22;
-  --color-selected: #2c3e50;
-  --color-neighbor: #95a5a6;
-  --color-given-stroke: #7f8c8d;
-  --color-btn-bg: #ecf0f1;
-  --color-btn-hover: #d5dbdb;
-  --color-primary: #2c3e50;
+  /* Octile Universe dark theme tokens */
+  --color-bg: var(--bg);                       /* #0F1115 dark */
+  --color-text: var(--text);                   /* #E8ECF2 light */
+  --color-accent: var(--accent);               /* #6AA0FF blue */
+  --color-conflict: var(--error);              /* #FF6B6B red */
+  --color-preview: var(--warning);             /* #F7C948 yellow */
+  --color-selected: var(--accent);             /* #6AA0FF */
+  --color-neighbor: var(--muted);              /* #AAB3C2 */
+  --color-given-stroke: rgba(255,255,255,0.25); /* Visible on dark + mobile */
+  --color-btn-bg: var(--surface);              /* #151A22 */
+  --color-btn-hover: var(--surface-2);         /* #1B2230 - more visible than --hover */
+  --color-primary: var(--surface-2);           /* #1B2230 */
   --svg-width: clamp(320px, 90vw, 800px);
 }
 
@@ -70,10 +71,10 @@ body {
   position: absolute;
   top: 100%;
   left: 0;
-  background: white;
+  background: var(--surface);
   color: var(--color-text);
-  border-radius: 6px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-1);
   min-width: 280px;
   z-index: 100;
   overflow: hidden;
@@ -91,13 +92,13 @@ body {
   padding: 4px 16px;
   font-size: 0.75rem;
   text-transform: uppercase;
-  color: #999;
+  color: var(--muted);
   letter-spacing: 0.5px;
 }
 
 .dropdown hr {
   border: none;
-  border-top: 1px solid #eee;
+  border-top: 1px solid var(--border);
   margin: 4px 0;
 }
 
@@ -114,7 +115,7 @@ body {
 }
 
 .preset-btn:hover {
-  background: #f0f4f8;
+  background: var(--hover);
 }
 
 #info-bar {
@@ -205,9 +206,9 @@ main {
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  border: 3px solid #ccc;
+  border: 3px solid var(--border);
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: all var(--t-fast) var(--ease-out);
 }
 
 .palette-btn:hover {
@@ -217,7 +218,7 @@ main {
 .palette-btn.active {
   transform: scale(1.2);
   border-color: var(--color-selected);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 0 2px var(--color-bg), 0 0 12px var(--accent-soft);
 }
 
 /* Controls */
@@ -265,17 +266,17 @@ main {
 }
 
 .modal-content {
-  background: white;
+  background: var(--surface);
   padding: 32px;
-  border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-1);
   max-width: 400px;
   width: 90%;
 }
 
 .modal-content h2 {
   margin-bottom: 16px;
-  color: var(--color-primary);
+  color: var(--text);
 }
 
 .modal-content p {
@@ -300,17 +301,20 @@ main {
   width: 100%;
   padding: 8px;
   margin-top: 4px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
   font-size: 0.95rem;
+  background: var(--surface-2);
+  color: var(--text);
 }
 
 .modal-content kbd {
-  background: #eee;
+  background: var(--surface-2);
   padding: 2px 6px;
   border-radius: 3px;
   font-size: 0.85rem;
-  border: 1px solid #ccc;
+  border: 1px solid var(--border);
+  color: var(--text);
 }
 
 .modal-actions {
@@ -336,15 +340,26 @@ main {
 
 .btn-cancel {
   padding: 10px 20px;
-  background: #ccc;
-  border: none;
-  border-radius: 4px;
+  background: var(--surface-2);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
   cursor: pointer;
   font-size: 1rem;
 }
 
 .btn-cancel:hover {
-  background: #bbb;
+  background: var(--hover);
+}
+
+/* Octile cross-promotion */
+.octile-prompt {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  font-size: 0.9rem;
+  color: var(--muted);
+  text-align: center;
 }
 
 /* Toast */
@@ -361,22 +376,23 @@ main {
 }
 
 .toast {
-  background: white;
+  background: var(--surface);
   padding: 12px 24px;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-1);
   font-size: 0.95rem;
   max-width: 300px;
   text-align: center;
-  animation: slideIn 0.3s ease-out, slideOut 0.3s ease-in 2.7s;
+  animation: slideIn var(--t-slow) var(--ease-out), slideOut var(--t-slow) var(--ease-in) 2.7s;
   animation-fill-mode: forwards;
   pointer-events: all;
+  color: var(--text);
 }
 
-.toast.info { border-left: 4px solid var(--color-accent); }
-.toast.success { border-left: 4px solid #2ecc71; }
-.toast.warning { border-left: 4px solid #f39c12; }
-.toast.error { border-left: 4px solid var(--color-conflict); }
+.toast.info { border-left: 4px solid var(--info); }
+.toast.success { border-left: 4px solid var(--success); }
+.toast.warning { border-left: 4px solid var(--warning); }
+.toast.error { border-left: 4px solid var(--error); }
 
 @keyframes slideIn {
   from { transform: translateY(-100%); opacity: 0; }

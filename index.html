@@ -6,6 +6,7 @@
   <meta name="theme-color" content="#2c3e50">
   <meta name="description" content="Map coloring puzzle game">
   <title>Map Coloring</title>
+  <link rel="stylesheet" href="platforms/web-dom/tokens.css">
   <link rel="stylesheet" href="platforms/web-dom/styles.css">
   <link rel="manifest" href="manifest.json">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -113,9 +114,10 @@
   <!-- Completion Modal -->
   <div id="completion-modal" class="modal">
     <div class="modal-content">
-      <h2 data-i18n="complete.title">Map Completed!</h2>
+      <h2 data-i18n="complete.title">Map completed</h2>
       <p><span data-i18n="complete.time">Time:</span> <span id="completion-time">0:00</span></p>
       <p><span data-i18n="complete.moves">Moves:</span> <span id="completion-moves">0</span></p>
+      <p class="octile-prompt" data-i18n="complete.octile">Looking for deeper puzzles? Octile explores this style further.</p>
       <div class="modal-actions">
         <button type="button" class="btn-primary" id="completion-new" data-i18n="complete.new">New Map</button>
       </div>

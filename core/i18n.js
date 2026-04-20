@@ -1,3 +1,6 @@
+// Octile Universe Guideline: Avoid exclamation marks in all UI copy.
+// Tone should be calm, restrained, and respectful.
+
 const translations = {
   en: {
     // Nav
@@ -58,10 +61,11 @@ const translations = {
     'help.ok': 'OK',
 
     // Completion modal
-    'complete.title': 'Map Completed!',
+    'complete.title': 'Map completed',
     'complete.time': 'Time:',
     'complete.moves': 'Moves:',
     'complete.new': 'New Map',
+    'complete.octile': 'Looking for deeper puzzles? Octile explores this style further.',
 
     // Toasts
     'toast.generating': 'Generating map...',
@@ -70,7 +74,7 @@ const translations = {
     'toast.noUndo': 'Nothing to undo',
     'toast.noRedo': 'Nothing to redo',
     'toast.noHint': 'No hint available',
-    'toast.hintApplied': 'Hint applied!',
+    'toast.hintApplied': 'Hint applied',
     'toast.restarted': 'Game restarted',
 
     // Lang toggle
@@ -136,10 +140,11 @@ const translations = {
     'help.ok': '\u78ba\u5b9a',
 
     // Completion modal
-    'complete.title': '\u5730\u5716\u5b8c\u6210\uff01',
+    'complete.title': '\u5730\u5716\u5b8c\u6210',
     'complete.time': '\u6642\u9593\uff1a',
     'complete.moves': '\u6b65\u6578\uff1a',
     'complete.new': '\u65b0\u5730\u5716',
+    'complete.octile': '\u5c0b\u627e\u66f4\u6df1\u5165\u7684\u8b0e\u984c\uff1fOctile \u9032\u4e00\u6b65\u63a2\u7d22\u9019\u7a2e\u98a8\u683c\u3002',
 
     // Toasts
     'toast.generating': '\u6b63\u5728\u7522\u751f\u5730\u5716\u2026',
@@ -148,7 +153,7 @@ const translations = {
     'toast.noUndo': '\u7121\u53ef\u5fa9\u539f\u7684\u64cd\u4f5c',
     'toast.noRedo': '\u7121\u53ef\u91cd\u505a\u7684\u64cd\u4f5c',
     'toast.noHint': '\u7121\u53ef\u7528\u63d0\u793a',
-    'toast.hintApplied': '\u5df2\u5957\u7528\u63d0\u793a\uff01',
+    'toast.hintApplied': '\u5df2\u5957\u7528\u63d0\u793a',
     'toast.restarted': '\u904a\u6232\u5df2\u91cd\u65b0\u958b\u59cb',
 
     // Lang toggle
