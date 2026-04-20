@@ -5,7 +5,7 @@ export const PALETTES = {
 
 export const DEFAULT_PALETTE = 'classic';
 export const NUM_COLORS = 4;
-export const UNFILLED_COLOR = '#f0f0f0';
+export const UNFILLED_COLOR = '#1B2230';  // Dark surface tone for Octile Universe integration
 
 export const PRESETS = [
   { label: '20×15, 30 regions, Easy',         width: 800,  height: 600,  regions: 30, difficulty: 'EASY' },

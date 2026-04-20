@@ -35,9 +35,18 @@
     </div>
     <button id="lang-btn" class="menu-btn">中文</button>
     <div id="info-bar">
-      <span id="timer">00:00</span>
-      <span id="moves">Moves: 0</span>
-      <span id="remaining">Left: 0</span>
+      <span>
+        <span class="info-label" data-i18n="info.time">Time:</span>
+        <span id="timer" class="info-value">00:00</span>
+      </span>
+      <span>
+        <span class="info-label" data-i18n="info.moves">Moves:</span>
+        <span id="moves" class="info-value">0</span>
+      </span>
+      <span>
+        <span class="info-label" data-i18n="info.left">Left:</span>
+        <span id="remaining" class="info-value">0</span>
+      </span>
     </div>
   </nav>
 
@@ -52,11 +61,11 @@
     </div>
 
     <div id="controls">
-      <button id="new-btn" title="New Map (N)" data-i18n="ctrl.new">New Map</button>
-      <button id="hint-btn" title="Hint (?)" data-i18n="ctrl.hint">Hint</button>
-      <button id="undo-btn" title="Undo (U/Z)" data-i18n="ctrl.undo">Undo</button>
-      <button id="redo-btn" title="Redo (Y)" data-i18n="ctrl.redo">Redo</button>
-      <button id="restart-btn" title="Restart (R)" data-i18n="ctrl.restart">Restart</button>
+      <button id="new-btn" data-priority="primary" title="New Map (N)" data-i18n="ctrl.new">New Map</button>
+      <button id="hint-btn" data-priority="secondary" title="Hint (?)" data-i18n="ctrl.hint">Hint</button>
+      <button id="undo-btn" data-priority="secondary" title="Undo (U/Z)" data-i18n="ctrl.undo">Undo</button>
+      <button id="redo-btn" data-priority="secondary" title="Redo (Y)" data-i18n="ctrl.redo">Redo</button>
+      <button id="restart-btn" data-priority="tertiary" title="Restart (R)" data-i18n="ctrl.restart">Restart</button>
     </div>
   </main>
 

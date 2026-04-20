@@ -117,11 +117,11 @@ export class WebRenderer extends IRenderer {
   }
 
   updateMoves(moves) {
-    this.movesEl.textContent = `Moves: ${moves}`;
+    this.movesEl.textContent = moves;
   }
 
   updateRemaining(count) {
-    this.remainingEl.textContent = `Left: ${count}`;
+    this.remainingEl.textContent = count;
   }
 
   showCompletionModal(data) {

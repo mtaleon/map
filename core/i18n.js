@@ -9,6 +9,7 @@ const translations = {
     'nav.presets': 'Presets',
 
     // Info bar
+    'info.time': 'Time',
     'info.moves': 'Moves',
     'info.left': 'Left',
 
@@ -88,6 +89,7 @@ const translations = {
     'nav.presets': '\u9810\u8a2d',
 
     // Info bar
+    'info.time': '\u6642\u9593',
     'info.moves': '\u6b65\u6578',
     'info.left': '\u5269\u9918',
 
