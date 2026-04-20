@@ -359,6 +359,94 @@ try {
     fail('English persists after reload', `btn="${langBtnReload2}", help="${helpBtnReload2}"`);
   }
 
+  // --- Drag-and-drop tests ---
+
+  // TEST 29: Drag from palette button to region applies color
+  // Switch back to color 0 first
+  await page.locator('.palette-btn[data-color="0"]').click();
+  await page.waitForTimeout(200);
+
+  // Find a non-given unfilled region
+  const dragTarget = await page.locator('.region-fill:not(.given)').first();
+  const dragTargetId = await dragTarget.getAttribute('data-region-id');
+  const dragTargetFillBefore = await dragTarget.getAttribute('fill');
+
+  // Get palette button position
+  const paletteBtn1 = page.locator('.palette-btn[data-color="1"]');
+  const paletteBBox = await paletteBtn1.boundingBox();
+  const paletteCenterX = paletteBBox.x + paletteBBox.width / 2;
+  const paletteCenterY = paletteBBox.y + paletteBBox.height / 2;
+
+  // Get target region position
+  const targetBBox = await dragTarget.boundingBox();
+  const targetCenterX = targetBBox.x + targetBBox.width / 2;
+  const targetCenterY = targetBBox.y + targetBBox.height / 2;
+
+  // Perform drag: mouse down on palette btn, move to region, mouse up
+  await page.mouse.move(paletteCenterX, paletteCenterY);
+  await page.mouse.down();
+  // Move past threshold (>5px)
+  await page.mouse.move(paletteCenterX + 10, paletteCenterY + 10, { steps: 3 });
+  await page.mouse.move(targetCenterX, targetCenterY, { steps: 5 });
+  await page.mouse.up();
+  await page.waitForTimeout(300);
+
+  const dragTargetFillAfter = await dragTarget.getAttribute('fill');
+  if (dragTargetFillAfter !== dragTargetFillBefore && dragTargetFillAfter !== '#f0f0f0') {
+    pass(`Drag from palette to region ${dragTargetId} applies color (${dragTargetFillBefore} → ${dragTargetFillAfter})`);
+  } else {
+    fail('Drag from palette to region', `fill unchanged: ${dragTargetFillBefore} → ${dragTargetFillAfter}`);
+  }
+
+  // TEST 30: Drag from colored region to another region copies color
+  // Find another non-given unfilled region
+  const secondTarget = await page.locator('.region-fill:not(.given)').nth(1);
+  const secondTargetFillBefore = await secondTarget.getAttribute('fill');
+  const secondBBox = await secondTarget.boundingBox();
+  const secondCenterX = secondBBox.x + secondBBox.width / 2;
+  const secondCenterY = secondBBox.y + secondBBox.height / 2;
+
+  // Drag from the previously colored region to the second target
+  const sourceBBox = await dragTarget.boundingBox();
+  const sourceCenterX = sourceBBox.x + sourceBBox.width / 2;
+  const sourceCenterY = sourceBBox.y + sourceBBox.height / 2;
+
+  await page.mouse.move(sourceCenterX, sourceCenterY);
+  await page.mouse.down();
+  await page.mouse.move(sourceCenterX + 10, sourceCenterY + 10, { steps: 3 });
+  await page.mouse.move(secondCenterX, secondCenterY, { steps: 5 });
+  await page.mouse.up();
+  await page.waitForTimeout(300);
+
+  const secondTargetFillAfter = await secondTarget.getAttribute('fill');
+  if (secondTargetFillAfter === dragTargetFillAfter) {
+    pass(`Drag from colored region copies color to another region`);
+  } else {
+    fail('Drag from colored region', `expected ${dragTargetFillAfter}, got ${secondTargetFillAfter}`);
+  }
+
+  // TEST 31: Drag that doesn't cross threshold doesn't apply color (still acts as click)
+  const thirdTarget = await page.locator('.region-fill:not(.given)').nth(2);
+  const thirdFillBefore = await thirdTarget.getAttribute('fill');
+  const thirdBBox = await thirdTarget.boundingBox();
+  const thirdCenterX = thirdBBox.x + thirdBBox.width / 2;
+  const thirdCenterY = thirdBBox.y + thirdBBox.height / 2;
+
+  // Move less than 5px — should not trigger drag
+  await page.mouse.move(thirdCenterX, thirdCenterY);
+  await page.mouse.down();
+  await page.mouse.move(thirdCenterX + 2, thirdCenterY + 2, { steps: 2 });
+  await page.mouse.up();
+  await page.waitForTimeout(300);
+
+  // Ghost element should not exist
+  const ghostExists = await page.locator('.drag-ghost').count();
+  if (ghostExists === 0) {
+    pass('Sub-threshold movement does not create ghost');
+  } else {
+    fail('Sub-threshold movement', `ghost count: ${ghostExists}`);
+  }
+
 } catch (err) {
   fail('Test execution', err.message);
   console.error(err);

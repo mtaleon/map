@@ -73,6 +73,10 @@ input.onColorSelect((colorIndex) => {
   game.selectColor(colorIndex);
 });
 
+input.onDragColor((regionId, colorIndex) => {
+  game.applyColor(regionId, colorIndex);
+});
+
 input.onUndo(() => {
   if (game.undoStack.length === 0) {
     renderer.showToast(t('toast.noUndo'), 'warning');

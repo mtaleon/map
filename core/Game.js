@@ -111,6 +111,35 @@ export class Game {
     this._scheduleSave();
   }
 
+  /**
+   * Apply a specific color to a region (used by drag-and-drop).
+   */
+  applyColor(regionId, colorIndex) {
+    if (this._completed) return;
+    const region = this.board.regions[regionId];
+    if (!region || region.given) return;
+
+    const prevColor = region.color;
+    if (prevColor === colorIndex) return;
+
+    if (!this.board.setColor(regionId, colorIndex)) return;
+
+    this.undoStack.push({ regionId, prevColor, nextColor: colorIndex });
+    this.redoStack = [];
+    this.moves++;
+
+    const dirty = this.board.validateRegion(regionId);
+    this._emitBoardChanges(regionId, dirty);
+    this._emitHighlight();
+    this._emitStats();
+
+    if (colorIndex !== null && this.board.isComplete()) {
+      this._onComplete();
+    }
+
+    this._scheduleSave();
+  }
+
   undo() {
     if (this.undoStack.length === 0 || this._completed) return;
     const action = this.undoStack.pop();
