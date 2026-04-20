@@ -16,6 +16,9 @@ const input = new WebInput();
 const storage = new WebStorage();
 const game = new Game(eventBus, storage);
 
+// Track current game configuration for "New Game" button
+let currentConfig = null;
+
 // Set palette button colors
 const palette = PALETTES[DEFAULT_PALETTE];
 document.querySelectorAll('.palette-btn').forEach((btn, i) => {
@@ -102,8 +105,13 @@ input.onRestart(() => {
 });
 
 input.onNewGame(() => {
-  // Open dropdown
-  document.getElementById('type-dropdown').classList.add('open');
+  if (currentConfig) {
+    // Generate new game with same config
+    startNewGame(currentConfig);
+  } else {
+    // Fallback: open dropdown if no config saved
+    document.getElementById('type-dropdown').classList.add('open');
+  }
 });
 
 // --- Preset buttons ---
@@ -162,6 +170,9 @@ setInterval(() => {
 
 // --- Start a new game ---
 function startNewGame(config) {
+  // Save config for "New Game" button
+  currentConfig = config;
+
   renderer.showToast(t('toast.generating'), 'info');
   // Use setTimeout to let toast render before blocking generation
   setTimeout(() => {
