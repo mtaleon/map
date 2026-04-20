@@ -5,8 +5,11 @@ import { EVENTS, PRESETS, PALETTES, DEFAULT_PALETTE } from './core/constants.js'
 import { WebRenderer } from './platforms/web-dom/Renderer.js';
 import { WebInput } from './platforms/web-dom/Input.js';
 import { WebStorage } from './platforms/web-dom/Storage.js';
+import { init as i18nInit, t, getLang, setLang } from './core/i18n.js';
 
-// Initialize
+// Initialize i18n
+i18nInit();
+
 const eventBus = new EventBus();
 const renderer = new WebRenderer();
 const input = new WebInput();
@@ -72,7 +75,7 @@ input.onColorSelect((colorIndex) => {
 
 input.onUndo(() => {
   if (game.undoStack.length === 0) {
-    renderer.showToast('Nothing to undo', 'warning');
+    renderer.showToast(t('toast.noUndo'), 'warning');
   } else {
     game.undo();
   }
@@ -80,7 +83,7 @@ input.onUndo(() => {
 
 input.onRedo(() => {
   if (game.redoStack.length === 0) {
-    renderer.showToast('Nothing to redo', 'warning');
+    renderer.showToast(t('toast.noRedo'), 'warning');
   } else {
     game.redo();
   }
@@ -155,7 +158,7 @@ setInterval(() => {
 
 // --- Start a new game ---
 function startNewGame(config) {
-  renderer.showToast('Generating map...', 'info');
+  renderer.showToast(t('toast.generating'), 'info');
   // Use setTimeout to let toast render before blocking generation
   setTimeout(() => {
     try {
@@ -163,17 +166,52 @@ function startNewGame(config) {
       game.startGame(mapData, prefills);
     } catch (e) {
       console.error('Generation failed:', e);
-      renderer.showToast('Generation failed, retrying...', 'error');
+      renderer.showToast(t('toast.genFailed'), 'error');
       // Retry once
       try {
         const { mapData, prefills } = Generator.generate(config);
         game.startGame(mapData, prefills);
       } catch (e2) {
-        renderer.showToast('Generation failed. Try different settings.', 'error');
+        renderer.showToast(t('toast.genFailedFinal'), 'error');
       }
     }
   }, 50);
 }
+
+// --- i18n ---
+function applyTranslations() {
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    el.textContent = t(el.dataset.i18n);
+  });
+  // Update dynamic info bar text
+  const movesEl = document.getElementById('moves');
+  const remainingEl = document.getElementById('remaining');
+  if (game.board) {
+    movesEl.textContent = t('info.moves') + ': ' + game.moves;
+    remainingEl.textContent = t('info.left') + ': ' + game.board.remainingCount();
+  } else {
+    movesEl.textContent = t('info.moves') + ': 0';
+    remainingEl.textContent = t('info.left') + ': 0';
+  }
+  // Update lang button text
+  document.getElementById('lang-btn').textContent = t('lang.toggle');
+}
+
+document.getElementById('lang-btn').addEventListener('click', () => {
+  setLang(getLang() === 'en' ? 'zh' : 'en');
+  applyTranslations();
+});
+
+// Override renderer info updates to use translated labels
+renderer.updateMoves = (moves) => {
+  document.getElementById('moves').textContent = t('info.moves') + ': ' + moves;
+};
+renderer.updateRemaining = (count) => {
+  document.getElementById('remaining').textContent = t('info.left') + ': ' + count;
+};
+
+// Apply translations on load
+applyTranslations();
 
 // --- Startup ---
 if (!game.loadSavedGame()) {

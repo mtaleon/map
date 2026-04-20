@@ -261,6 +261,104 @@ try {
     fail('Hint fills a region', 'no region filled');
   }
 
+  // --- i18n tests ---
+
+  // TEST 21: Lang toggle button exists and shows 中文
+  const langBtn = page.locator('#lang-btn');
+  const langBtnText = await langBtn.textContent();
+  if (langBtnText === '中文') {
+    pass('Lang toggle button shows "中文" in English mode');
+  } else {
+    fail('Lang toggle button text', `expected "中文", got "${langBtnText}"`);
+  }
+
+  // TEST 22: Clicking lang toggle switches UI to Chinese
+  await langBtn.click();
+  await page.waitForTimeout(200);
+  const langBtnAfter = await langBtn.textContent();
+  const helpBtnZh = await page.locator('#help-btn').textContent();
+  const newBtnZh = await page.locator('#new-btn').textContent();
+  const hintBtnZh = await page.locator('#hint-btn').textContent();
+  if (langBtnAfter === 'EN' && helpBtnZh === '說明' && newBtnZh === '新地圖' && hintBtnZh === '提示') {
+    pass('Toggle switches UI to Chinese (button=EN, help=說明, new=新地圖, hint=提示)');
+  } else {
+    fail('Toggle switches to Chinese', `btn="${langBtnAfter}", help="${helpBtnZh}", new="${newBtnZh}", hint="${hintBtnZh}"`);
+  }
+
+  // TEST 23: Info bar labels are translated
+  const movesZh = await page.locator('#moves').textContent();
+  const remainingZh = await page.locator('#remaining').textContent();
+  if (movesZh.startsWith('步數') && remainingZh.startsWith('剩餘')) {
+    pass(`Info bar translated: moves="${movesZh}", remaining="${remainingZh}"`);
+  } else {
+    fail('Info bar translated', `moves="${movesZh}", remaining="${remainingZh}"`);
+  }
+
+  // TEST 24: Preset dropdown labels are translated
+  await page.locator('#menu-type .menu-btn').click();
+  await page.waitForTimeout(200);
+  const presetLabel = await page.locator('.dropdown-label').textContent();
+  const preset0Text = await page.locator('.preset-btn[data-preset="0"]').textContent();
+  if (presetLabel === '預設' && preset0Text.includes('簡單')) {
+    pass(`Presets translated: label="${presetLabel}", preset0="${preset0Text}"`);
+  } else {
+    fail('Presets translated', `label="${presetLabel}", preset0="${preset0Text}"`);
+  }
+  // Close dropdown
+  await page.locator('.preset-btn[data-preset="0"]').click();
+  await page.waitForTimeout(1500);
+
+  // TEST 25: Help modal content is translated
+  await page.locator('#help-btn').click();
+  await page.waitForTimeout(200);
+  const helpTitle = await page.locator('#help-modal h2').textContent();
+  const helpOk = await page.locator('#help-close').textContent();
+  if (helpTitle === '遊戲說明' && helpOk === '確定') {
+    pass(`Help modal translated: title="${helpTitle}", ok="${helpOk}"`);
+  } else {
+    fail('Help modal translated', `title="${helpTitle}", ok="${helpOk}"`);
+  }
+  await page.locator('#help-close').click();
+
+  // TEST 26: Clicking toggle again switches back to English
+  await langBtn.click();
+  await page.waitForTimeout(200);
+  const langBtnBack = await langBtn.textContent();
+  const helpBtnEn = await page.locator('#help-btn').textContent();
+  const newBtnEn = await page.locator('#new-btn').textContent();
+  const movesEn = await page.locator('#moves').textContent();
+  if (langBtnBack === '中文' && helpBtnEn === 'Help' && newBtnEn === 'New Map' && movesEn.startsWith('Moves')) {
+    pass('Toggle switches back to English');
+  } else {
+    fail('Toggle switches back to English', `btn="${langBtnBack}", help="${helpBtnEn}", new="${newBtnEn}", moves="${movesEn}"`);
+  }
+
+  // TEST 27: Language preference persists after reload
+  await langBtn.click(); // switch to Chinese
+  await page.waitForTimeout(200);
+  await page.reload({ waitUntil: 'networkidle' });
+  await page.waitForTimeout(2000);
+  const langBtnReload = await page.locator('#lang-btn').textContent();
+  const helpBtnReload = await page.locator('#help-btn').textContent();
+  if (langBtnReload === 'EN' && helpBtnReload === '說明') {
+    pass('Language preference persists after reload (Chinese)');
+  } else {
+    fail('Language persists after reload', `btn="${langBtnReload}", help="${helpBtnReload}"`);
+  }
+
+  // TEST 28: Reset to English for clean state, verify persistence
+  await page.locator('#lang-btn').click();
+  await page.waitForTimeout(200);
+  await page.reload({ waitUntil: 'networkidle' });
+  await page.waitForTimeout(2000);
+  const langBtnReload2 = await page.locator('#lang-btn').textContent();
+  const helpBtnReload2 = await page.locator('#help-btn').textContent();
+  if (langBtnReload2 === '中文' && helpBtnReload2 === 'Help') {
+    pass('English preference persists after reload');
+  } else {
+    fail('English persists after reload', `btn="${langBtnReload2}", help="${helpBtnReload2}"`);
+  }
+
 } catch (err) {
   fail('Test execution', err.message);
   console.error(err);

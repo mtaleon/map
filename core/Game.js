@@ -1,6 +1,7 @@
 import { Board } from './Board.js';
 import { Solver } from './Solver.js';
 import { EVENTS } from './constants.js';
+import { t } from './i18n.js';
 
 const SAVE_KEY = 'map-coloring-save';
 
@@ -144,7 +145,7 @@ export class Game {
     if (this._completed) return;
     const hint = Solver.getHint(this.board.adjacency, this.board.regions);
     if (!hint) {
-      this.eventBus.emit(EVENTS.TOAST, { message: 'No hint available', kind: 'warning' });
+      this.eventBus.emit(EVENTS.TOAST, { message: t('toast.noHint'), kind: 'warning' });
       return;
     }
 
@@ -161,7 +162,7 @@ export class Game {
     this._emitHighlight();
     this._emitStats();
 
-    this.eventBus.emit(EVENTS.TOAST, { message: 'Hint applied!', kind: 'info' });
+    this.eventBus.emit(EVENTS.TOAST, { message: t('toast.hintApplied'), kind: 'info' });
 
     if (this.board.isComplete()) {
       this._onComplete();
@@ -173,7 +174,7 @@ export class Game {
   restart() {
     if (!this.originalMapData || !this.originalPrefills) return;
     this.startGame(this.originalMapData, this.originalPrefills);
-    this.eventBus.emit(EVENTS.TOAST, { message: 'Game restarted', kind: 'info' });
+    this.eventBus.emit(EVENTS.TOAST, { message: t('toast.restarted'), kind: 'info' });
   }
 
   // --- Save / Load ---
