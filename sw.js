@@ -12,6 +12,7 @@ const STATIC_ASSETS = [
   'core/Game.js',
   'core/Solver.js',
   'core/Generator.js',
+  'core/i18n.js',
   'platform/IRenderer.js',
   'platform/IInput.js',
   'platform/IStorage.js',

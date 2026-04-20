@@ -261,6 +261,192 @@ try {
     fail('Hint fills a region', 'no region filled');
   }
 
+  // --- i18n tests ---
+
+  // TEST 21: Lang toggle button exists and shows 中文
+  const langBtn = page.locator('#lang-btn');
+  const langBtnText = await langBtn.textContent();
+  if (langBtnText === '中文') {
+    pass('Lang toggle button shows "中文" in English mode');
+  } else {
+    fail('Lang toggle button text', `expected "中文", got "${langBtnText}"`);
+  }
+
+  // TEST 22: Clicking lang toggle switches UI to Chinese
+  await langBtn.click();
+  await page.waitForTimeout(200);
+  const langBtnAfter = await langBtn.textContent();
+  const helpBtnZh = await page.locator('#help-btn').textContent();
+  const newBtnZh = await page.locator('#new-btn').textContent();
+  const hintBtnZh = await page.locator('#hint-btn').textContent();
+  if (langBtnAfter === 'EN' && helpBtnZh === '說明' && newBtnZh === '新地圖' && hintBtnZh === '提示') {
+    pass('Toggle switches UI to Chinese (button=EN, help=說明, new=新地圖, hint=提示)');
+  } else {
+    fail('Toggle switches to Chinese', `btn="${langBtnAfter}", help="${helpBtnZh}", new="${newBtnZh}", hint="${hintBtnZh}"`);
+  }
+
+  // TEST 23: Info bar labels are translated
+  const movesZh = await page.locator('#moves').textContent();
+  const remainingZh = await page.locator('#remaining').textContent();
+  if (movesZh.startsWith('步數') && remainingZh.startsWith('剩餘')) {
+    pass(`Info bar translated: moves="${movesZh}", remaining="${remainingZh}"`);
+  } else {
+    fail('Info bar translated', `moves="${movesZh}", remaining="${remainingZh}"`);
+  }
+
+  // TEST 24: Preset dropdown labels are translated
+  await page.locator('#menu-type .menu-btn').click();
+  await page.waitForTimeout(200);
+  const presetLabel = await page.locator('.dropdown-label').textContent();
+  const preset0Text = await page.locator('.preset-btn[data-preset="0"]').textContent();
+  if (presetLabel === '預設' && preset0Text.includes('簡單')) {
+    pass(`Presets translated: label="${presetLabel}", preset0="${preset0Text}"`);
+  } else {
+    fail('Presets translated', `label="${presetLabel}", preset0="${preset0Text}"`);
+  }
+  // Close dropdown
+  await page.locator('.preset-btn[data-preset="0"]').click();
+  await page.waitForTimeout(1500);
+
+  // TEST 25: Help modal content is translated
+  await page.locator('#help-btn').click();
+  await page.waitForTimeout(200);
+  const helpTitle = await page.locator('#help-modal h2').textContent();
+  const helpOk = await page.locator('#help-close').textContent();
+  if (helpTitle === '遊戲說明' && helpOk === '確定') {
+    pass(`Help modal translated: title="${helpTitle}", ok="${helpOk}"`);
+  } else {
+    fail('Help modal translated', `title="${helpTitle}", ok="${helpOk}"`);
+  }
+  await page.locator('#help-close').click();
+
+  // TEST 26: Clicking toggle again switches back to English
+  await langBtn.click();
+  await page.waitForTimeout(200);
+  const langBtnBack = await langBtn.textContent();
+  const helpBtnEn = await page.locator('#help-btn').textContent();
+  const newBtnEn = await page.locator('#new-btn').textContent();
+  const movesEn = await page.locator('#moves').textContent();
+  if (langBtnBack === '中文' && helpBtnEn === 'Help' && newBtnEn === 'New Map' && movesEn.startsWith('Moves')) {
+    pass('Toggle switches back to English');
+  } else {
+    fail('Toggle switches back to English', `btn="${langBtnBack}", help="${helpBtnEn}", new="${newBtnEn}", moves="${movesEn}"`);
+  }
+
+  // TEST 27: Language preference persists after reload
+  await langBtn.click(); // switch to Chinese
+  await page.waitForTimeout(200);
+  await page.reload({ waitUntil: 'networkidle' });
+  await page.waitForTimeout(2000);
+  const langBtnReload = await page.locator('#lang-btn').textContent();
+  const helpBtnReload = await page.locator('#help-btn').textContent();
+  if (langBtnReload === 'EN' && helpBtnReload === '說明') {
+    pass('Language preference persists after reload (Chinese)');
+  } else {
+    fail('Language persists after reload', `btn="${langBtnReload}", help="${helpBtnReload}"`);
+  }
+
+  // TEST 28: Reset to English for clean state, verify persistence
+  await page.locator('#lang-btn').click();
+  await page.waitForTimeout(200);
+  await page.reload({ waitUntil: 'networkidle' });
+  await page.waitForTimeout(2000);
+  const langBtnReload2 = await page.locator('#lang-btn').textContent();
+  const helpBtnReload2 = await page.locator('#help-btn').textContent();
+  if (langBtnReload2 === '中文' && helpBtnReload2 === 'Help') {
+    pass('English preference persists after reload');
+  } else {
+    fail('English persists after reload', `btn="${langBtnReload2}", help="${helpBtnReload2}"`);
+  }
+
+  // --- Drag-and-drop tests ---
+
+  // TEST 29: Drag from palette button to region applies color
+  // Switch back to color 0 first
+  await page.locator('.palette-btn[data-color="0"]').click();
+  await page.waitForTimeout(200);
+
+  // Find a non-given unfilled region
+  const dragTarget = await page.locator('.region-fill:not(.given)').first();
+  const dragTargetId = await dragTarget.getAttribute('data-region-id');
+  const dragTargetFillBefore = await dragTarget.getAttribute('fill');
+
+  // Get palette button position
+  const paletteBtn1 = page.locator('.palette-btn[data-color="1"]');
+  const paletteBBox = await paletteBtn1.boundingBox();
+  const paletteCenterX = paletteBBox.x + paletteBBox.width / 2;
+  const paletteCenterY = paletteBBox.y + paletteBBox.height / 2;
+
+  // Get target region position
+  const targetBBox = await dragTarget.boundingBox();
+  const targetCenterX = targetBBox.x + targetBBox.width / 2;
+  const targetCenterY = targetBBox.y + targetBBox.height / 2;
+
+  // Perform drag: mouse down on palette btn, move to region, mouse up
+  await page.mouse.move(paletteCenterX, paletteCenterY);
+  await page.mouse.down();
+  // Move past threshold (>5px)
+  await page.mouse.move(paletteCenterX + 10, paletteCenterY + 10, { steps: 3 });
+  await page.mouse.move(targetCenterX, targetCenterY, { steps: 5 });
+  await page.mouse.up();
+  await page.waitForTimeout(300);
+
+  const dragTargetFillAfter = await dragTarget.getAttribute('fill');
+  if (dragTargetFillAfter !== dragTargetFillBefore && dragTargetFillAfter !== '#f0f0f0') {
+    pass(`Drag from palette to region ${dragTargetId} applies color (${dragTargetFillBefore} → ${dragTargetFillAfter})`);
+  } else {
+    fail('Drag from palette to region', `fill unchanged: ${dragTargetFillBefore} → ${dragTargetFillAfter}`);
+  }
+
+  // TEST 30: Drag from colored region to another region copies color
+  // Find another non-given unfilled region
+  const secondTarget = await page.locator('.region-fill:not(.given)').nth(1);
+  const secondTargetFillBefore = await secondTarget.getAttribute('fill');
+  const secondBBox = await secondTarget.boundingBox();
+  const secondCenterX = secondBBox.x + secondBBox.width / 2;
+  const secondCenterY = secondBBox.y + secondBBox.height / 2;
+
+  // Drag from the previously colored region to the second target
+  const sourceBBox = await dragTarget.boundingBox();
+  const sourceCenterX = sourceBBox.x + sourceBBox.width / 2;
+  const sourceCenterY = sourceBBox.y + sourceBBox.height / 2;
+
+  await page.mouse.move(sourceCenterX, sourceCenterY);
+  await page.mouse.down();
+  await page.mouse.move(sourceCenterX + 10, sourceCenterY + 10, { steps: 3 });
+  await page.mouse.move(secondCenterX, secondCenterY, { steps: 5 });
+  await page.mouse.up();
+  await page.waitForTimeout(300);
+
+  const secondTargetFillAfter = await secondTarget.getAttribute('fill');
+  if (secondTargetFillAfter === dragTargetFillAfter) {
+    pass(`Drag from colored region copies color to another region`);
+  } else {
+    fail('Drag from colored region', `expected ${dragTargetFillAfter}, got ${secondTargetFillAfter}`);
+  }
+
+  // TEST 31: Drag that doesn't cross threshold doesn't apply color (still acts as click)
+  const thirdTarget = await page.locator('.region-fill:not(.given)').nth(2);
+  const thirdFillBefore = await thirdTarget.getAttribute('fill');
+  const thirdBBox = await thirdTarget.boundingBox();
+  const thirdCenterX = thirdBBox.x + thirdBBox.width / 2;
+  const thirdCenterY = thirdBBox.y + thirdBBox.height / 2;
+
+  // Move less than 5px — should not trigger drag
+  await page.mouse.move(thirdCenterX, thirdCenterY);
+  await page.mouse.down();
+  await page.mouse.move(thirdCenterX + 2, thirdCenterY + 2, { steps: 2 });
+  await page.mouse.up();
+  await page.waitForTimeout(300);
+
+  // Ghost element should not exist
+  const ghostExists = await page.locator('.drag-ghost').count();
+  if (ghostExists === 0) {
+    pass('Sub-threshold movement does not create ghost');
+  } else {
+    fail('Sub-threshold movement', `ghost count: ${ghostExists}`);
+  }
+
 } catch (err) {
   fail('Test execution', err.message);
   console.error(err);

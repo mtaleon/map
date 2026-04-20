@@ -13,25 +13,26 @@
 <body>
   <nav id="menu-bar">
     <div class="menu-item" id="menu-type">
-      <button class="menu-btn">Map <span class="arrow">&#9662;</span></button>
+      <button class="menu-btn"><span data-i18n="nav.map">Map</span> <span class="arrow">&#9662;</span></button>
       <div class="dropdown" id="type-dropdown">
         <div class="dropdown-section">
-          <div class="dropdown-label">Presets</div>
-          <button class="preset-btn" data-preset="0">20&times;15, 30 regions, Easy</button>
-          <button class="preset-btn" data-preset="1">20&times;15, 30 regions, Normal</button>
-          <button class="preset-btn" data-preset="2">20&times;15, 30 regions, Hard</button>
-          <button class="preset-btn" data-preset="3">20&times;15, 30 regions, Unreasonable</button>
+          <div class="dropdown-label" data-i18n="nav.presets">Presets</div>
+          <button class="preset-btn" data-preset="0" data-i18n="preset.0">20&times;15, 30 regions, Easy</button>
+          <button class="preset-btn" data-preset="1" data-i18n="preset.1">20&times;15, 30 regions, Normal</button>
+          <button class="preset-btn" data-preset="2" data-i18n="preset.2">20&times;15, 30 regions, Hard</button>
+          <button class="preset-btn" data-preset="3" data-i18n="preset.3">20&times;15, 30 regions, Unreasonable</button>
           <hr>
-          <button class="preset-btn" data-preset="4">30&times;25, 75 regions, Normal</button>
-          <button class="preset-btn" data-preset="5">30&times;25, 75 regions, Hard</button>
+          <button class="preset-btn" data-preset="4" data-i18n="preset.4">30&times;25, 75 regions, Normal</button>
+          <button class="preset-btn" data-preset="5" data-i18n="preset.5">30&times;25, 75 regions, Hard</button>
           <hr>
-          <button class="preset-btn" id="custom-btn">Custom&hellip;</button>
+          <button class="preset-btn" id="custom-btn" data-i18n="preset.custom">Custom&hellip;</button>
         </div>
       </div>
     </div>
     <div class="menu-item" id="menu-help">
-      <button class="menu-btn" id="help-btn">Help</button>
+      <button class="menu-btn" id="help-btn" data-i18n="nav.help">Help</button>
     </div>
+    <button id="lang-btn" class="menu-btn">中文</button>
     <div id="info-bar">
       <span id="timer">00:00</span>
       <span id="moves">Moves: 0</span>
@@ -50,33 +51,33 @@
     </div>
 
     <div id="controls">
-      <button id="new-btn" title="New Map (N)">New Map</button>
-      <button id="hint-btn" title="Hint (?)">Hint</button>
-      <button id="undo-btn" title="Undo (U/Z)">Undo</button>
-      <button id="redo-btn" title="Redo (Y)">Redo</button>
-      <button id="restart-btn" title="Restart (R)">Restart</button>
+      <button id="new-btn" title="New Map (N)" data-i18n="ctrl.new">New Map</button>
+      <button id="hint-btn" title="Hint (?)" data-i18n="ctrl.hint">Hint</button>
+      <button id="undo-btn" title="Undo (U/Z)" data-i18n="ctrl.undo">Undo</button>
+      <button id="redo-btn" title="Redo (Y)" data-i18n="ctrl.redo">Redo</button>
+      <button id="restart-btn" title="Restart (R)" data-i18n="ctrl.restart">Restart</button>
     </div>
   </main>
 
   <!-- Custom Map Modal -->
   <div id="custom-modal" class="modal">
     <div class="modal-content">
-      <h2>Custom Map</h2>
+      <h2 data-i18n="custom.title">Custom Map</h2>
       <form id="custom-form">
-        <label>Width (px): <input type="number" id="custom-width" value="800" min="400" max="2000"></label>
-        <label>Height (px): <input type="number" id="custom-height" value="600" min="300" max="1500"></label>
-        <label>Regions: <input type="number" id="custom-regions" value="30" min="5" max="200"></label>
-        <label>Difficulty:
+        <label><span data-i18n="custom.width">Width (px):</span> <input type="number" id="custom-width" value="800" min="400" max="2000"></label>
+        <label><span data-i18n="custom.height">Height (px):</span> <input type="number" id="custom-height" value="600" min="300" max="1500"></label>
+        <label><span data-i18n="custom.regions">Regions:</span> <input type="number" id="custom-regions" value="30" min="5" max="200"></label>
+        <label><span data-i18n="custom.difficulty">Difficulty:</span>
           <select id="custom-difficulty">
-            <option value="EASY">Easy</option>
-            <option value="NORMAL" selected>Normal</option>
-            <option value="HARD">Hard</option>
-            <option value="UNREASONABLE">Unreasonable</option>
+            <option value="EASY" data-i18n="diff.easy">Easy</option>
+            <option value="NORMAL" selected data-i18n="diff.normal">Normal</option>
+            <option value="HARD" data-i18n="diff.hard">Hard</option>
+            <option value="UNREASONABLE" data-i18n="diff.unreasonable">Unreasonable</option>
           </select>
         </label>
         <div class="modal-actions">
-          <button type="submit" class="btn-primary">Generate</button>
-          <button type="button" class="btn-cancel" id="custom-cancel">Cancel</button>
+          <button type="submit" class="btn-primary" data-i18n="custom.generate">Generate</button>
+          <button type="button" class="btn-cancel" id="custom-cancel" data-i18n="custom.cancel">Cancel</button>
         </div>
       </form>
     </div>
@@ -85,26 +86,26 @@
   <!-- Help Modal -->
   <div id="help-modal" class="modal">
     <div class="modal-content">
-      <h2>How to Play</h2>
-      <p>Color every region on the map using 4 colors so that <strong>no two adjacent regions share the same color</strong>.</p>
+      <h2 data-i18n="help.title">How to Play</h2>
+      <p data-i18n="help.desc">Color every region on the map using 4 colors so that no two adjacent regions share the same color.</p>
       <ul>
-        <li>Select a color from the palette below the map</li>
-        <li>Click a region to fill it with that color</li>
-        <li>Gray regions are unfilled; shaded regions are pre-filled (given)</li>
-        <li>Red-highlighted regions have conflicts (same color as a neighbor)</li>
-        <li>On mobile: tap to select, tap again to place</li>
+        <li data-i18n="help.li1">Select a color from the palette below the map</li>
+        <li data-i18n="help.li2">Click a region to fill it with that color</li>
+        <li data-i18n="help.li3">Gray regions are unfilled; shaded regions are pre-filled (given)</li>
+        <li data-i18n="help.li4">Red-highlighted regions have conflicts (same color as a neighbor)</li>
+        <li data-i18n="help.li5">On mobile: tap to select, tap again to place</li>
       </ul>
-      <h3>Keyboard Shortcuts</h3>
+      <h3 data-i18n="help.shortcuts">Keyboard Shortcuts</h3>
       <ul>
-        <li><kbd>1-4</kbd> Select color</li>
-        <li><kbd>U</kbd> / <kbd>Z</kbd> Undo</li>
-        <li><kbd>Y</kbd> Redo</li>
-        <li><kbd>N</kbd> New map</li>
-        <li><kbd>?</kbd> Hint</li>
-        <li><kbd>R</kbd> Restart</li>
+        <li><kbd>1-4</kbd> <span data-i18n="help.key.color">Select color</span></li>
+        <li><kbd>U</kbd> / <kbd>Z</kbd> <span data-i18n="help.key.undo">Undo</span></li>
+        <li><kbd>Y</kbd> <span data-i18n="help.key.redo">Redo</span></li>
+        <li><kbd>N</kbd> <span data-i18n="help.key.new">New map</span></li>
+        <li><kbd>?</kbd> <span data-i18n="help.key.hint">Hint</span></li>
+        <li><kbd>R</kbd> <span data-i18n="help.key.restart">Restart</span></li>
       </ul>
       <div class="modal-actions">
-        <button type="button" class="btn-primary" id="help-close">OK</button>
+        <button type="button" class="btn-primary" id="help-close" data-i18n="help.ok">OK</button>
       </div>
     </div>
   </div>
@@ -112,11 +113,11 @@
   <!-- Completion Modal -->
   <div id="completion-modal" class="modal">
     <div class="modal-content">
-      <h2>Map Completed!</h2>
-      <p>Time: <span id="completion-time">0:00</span></p>
-      <p>Moves: <span id="completion-moves">0</span></p>
+      <h2 data-i18n="complete.title">Map Completed!</h2>
+      <p><span data-i18n="complete.time">Time:</span> <span id="completion-time">0:00</span></p>
+      <p><span data-i18n="complete.moves">Moves:</span> <span id="completion-moves">0</span></p>
       <div class="modal-actions">
-        <button type="button" class="btn-primary" id="completion-new">New Map</button>
+        <button type="button" class="btn-primary" id="completion-new" data-i18n="complete.new">New Map</button>
       </div>
     </div>
   </div>

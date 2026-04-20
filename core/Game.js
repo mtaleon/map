@@ -1,6 +1,7 @@
 import { Board } from './Board.js';
 import { Solver } from './Solver.js';
 import { EVENTS } from './constants.js';
+import { t } from './i18n.js';
 
 const SAVE_KEY = 'map-coloring-save';
 
@@ -110,6 +111,35 @@ export class Game {
     this._scheduleSave();
   }
 
+  /**
+   * Apply a specific color to a region (used by drag-and-drop).
+   */
+  applyColor(regionId, colorIndex) {
+    if (this._completed) return;
+    const region = this.board.regions[regionId];
+    if (!region || region.given) return;
+
+    const prevColor = region.color;
+    if (prevColor === colorIndex) return;
+
+    if (!this.board.setColor(regionId, colorIndex)) return;
+
+    this.undoStack.push({ regionId, prevColor, nextColor: colorIndex });
+    this.redoStack = [];
+    this.moves++;
+
+    const dirty = this.board.validateRegion(regionId);
+    this._emitBoardChanges(regionId, dirty);
+    this._emitHighlight();
+    this._emitStats();
+
+    if (colorIndex !== null && this.board.isComplete()) {
+      this._onComplete();
+    }
+
+    this._scheduleSave();
+  }
+
   undo() {
     if (this.undoStack.length === 0 || this._completed) return;
     const action = this.undoStack.pop();
@@ -144,7 +174,7 @@ export class Game {
     if (this._completed) return;
     const hint = Solver.getHint(this.board.adjacency, this.board.regions);
     if (!hint) {
-      this.eventBus.emit(EVENTS.TOAST, { message: 'No hint available', kind: 'warning' });
+      this.eventBus.emit(EVENTS.TOAST, { message: t('toast.noHint'), kind: 'warning' });
       return;
     }
 
@@ -161,7 +191,7 @@ export class Game {
     this._emitHighlight();
     this._emitStats();
 
-    this.eventBus.emit(EVENTS.TOAST, { message: 'Hint applied!', kind: 'info' });
+    this.eventBus.emit(EVENTS.TOAST, { message: t('toast.hintApplied'), kind: 'info' });
 
     if (this.board.isComplete()) {
       this._onComplete();
@@ -173,7 +203,7 @@ export class Game {
   restart() {
     if (!this.originalMapData || !this.originalPrefills) return;
     this.startGame(this.originalMapData, this.originalPrefills);
-    this.eventBus.emit(EVENTS.TOAST, { message: 'Game restarted', kind: 'info' });
+    this.eventBus.emit(EVENTS.TOAST, { message: t('toast.restarted'), kind: 'info' });
   }
 
   // --- Save / Load ---
