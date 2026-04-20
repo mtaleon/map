@@ -86,27 +86,32 @@
 
   <!-- Help Modal -->
   <div id="help-modal" class="modal">
-    <div class="modal-content">
+    <div class="modal-content help-content">
       <h2 data-i18n="help.title">How to Play</h2>
-      <p data-i18n="help.desc">Color every region on the map using 4 colors so that no two adjacent regions share the same color.</p>
+      <p class="help-objective" data-i18n="help.objective">Use 4 colors to fill every region on the map,
+ensuring no adjacent regions share the same color.</p>
+
+      <h3 data-i18n="help.section.controls">Operating Instructions</h3>
       <ul>
-        <li data-i18n="help.li1">Select a color from the palette below the map</li>
-        <li data-i18n="help.li2">Click a region to fill it with that color</li>
-        <li data-i18n="help.li3">Gray regions are unfilled; shaded regions are pre-filled (given)</li>
-        <li data-i18n="help.li4">Red-highlighted regions have conflicts (same color as a neighbor)</li>
-        <li data-i18n="help.li5">On mobile: tap to select, tap again to place</li>
+        <li data-i18n="help.controls.1">Select a color from the palette below the map</li>
+        <li data-i18n="help.controls.2">Click a region to apply the selected color</li>
+        <li data-i18n="help.controls.3">Gray regions: not yet filled</li>
+        <li data-i18n="help.controls.4">Darker regions: pre-filled, cannot be changed</li>
+        <li data-i18n="help.controls.5">Red-highlighted regions: color conflicts with adjacent region, needs adjustment</li>
       </ul>
-      <h3 data-i18n="help.shortcuts">Keyboard Shortcuts</h3>
+
+      <h3 data-i18n="help.section.mobile">Mobile Device Tips</h3>
       <ul>
-        <li><kbd>1-4</kbd> <span data-i18n="help.key.color">Select color</span></li>
-        <li><kbd>U</kbd> / <kbd>Z</kbd> <span data-i18n="help.key.undo">Undo</span></li>
-        <li><kbd>Y</kbd> <span data-i18n="help.key.redo">Redo</span></li>
-        <li><kbd>N</kbd> <span data-i18n="help.key.new">New map</span></li>
-        <li><kbd>?</kbd> <span data-i18n="help.key.hint">Hint</span></li>
-        <li><kbd>R</kbd> <span data-i18n="help.key.restart">Restart</span></li>
+        <li data-i18n="help.mobile.1">First tap: select region</li>
+        <li data-i18n="help.mobile.2">Second tap: place currently selected color</li>
       </ul>
+
+      <h3 data-i18n="help.section.approach">A Note on Approach</h3>
+      <p class="help-note" data-i18n="help.approach">Take time to consider how regions relate to each other.
+Sometimes a different color arrangement makes the whole map suddenly clearer.</p>
+
       <div class="modal-actions">
-        <button type="button" class="btn-primary" id="help-close" data-i18n="help.ok">OK</button>
+        <button type="button" class="btn-primary" id="help-close" data-i18n="help.close">Close</button>
       </div>
     </div>
   </div>

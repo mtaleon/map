@@ -362,6 +362,37 @@ main {
   text-align: center;
 }
 
+/* Help modal styling */
+.help-content h2 {
+  margin-bottom: 12px;
+}
+
+.help-content h3 {
+  margin-top: 20px;
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.help-content .help-objective {
+  margin-bottom: 20px;
+  line-height: 1.6;
+  white-space: pre-line;
+}
+
+.help-content ul {
+  margin-bottom: 16px;
+}
+
+.help-content .help-note {
+  line-height: 1.6;
+  color: var(--muted);
+  font-style: italic;
+  white-space: pre-line;
+  margin-bottom: 20px;
+}
+
 /* Toast */
 #toast-container {
   position: fixed;
