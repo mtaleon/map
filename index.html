@@ -12,6 +12,15 @@
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
 </head>
 <body>
+  <!-- OTA Update Banner -->
+  <div id="update-banner">
+    <p id="update-text"></p>
+    <div class="update-actions">
+      <button class="btn-update" id="update-btn">Update</button>
+      <button class="btn-dismiss" id="update-dismiss">Later</button>
+    </div>
+  </div>
+
   <nav id="menu-bar">
     <div class="menu-item" id="menu-type">
       <button class="menu-btn"><span data-i18n="nav.map">Map</span> <span class="arrow">&#9662;</span></button>
@@ -147,7 +156,8 @@ Sometimes a different color arrangement makes the whole map suddenly clearer.</p
 
   <script type="module" src="app.js"></script>
   <script>
-    if ('serviceWorker' in navigator) {
+    // Register SW only on web (not file://)
+    if ('serviceWorker' in navigator && location.protocol !== 'file:') {
       navigator.serviceWorker.register('sw.js').catch(err => {
         console.log('SW registration failed:', err);
       });
