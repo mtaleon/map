@@ -78,6 +78,37 @@ const translations = {
     'toast.hintApplied': 'Hint applied',
     'toast.restarted': 'Game restarted',
 
+    // Contact
+    'help.contactLabel': 'Contact:',
+    'help.contactAlt': 'If mail app doesn\'t open, please email us at: octileapp@googlegroups.com',
+    'contact.email': 'octileapp@googlegroups.com',
+    'footer.contact': 'Contact',
+
+    // Privacy & Feedback
+    'privacy.title': 'Privacy Policy',
+    'feedback.title': 'Send Feedback',
+    'feedback.emailLabel': 'Email (optional)',
+    'feedback.messageLabel': 'Message',
+    'feedback.submit': 'Send',
+    'feedback.screenshotLabel': 'Screenshot (optional)',
+
+    // OTA banner
+    'ota.updateAvailable': 'Update available',
+    'ota.updateRequired': 'Update required to continue',
+    'ota.updateBtn': 'Update',
+    'ota.later': 'Later',
+    'ota.restart': 'Restart',
+
+    // AdMob consent
+    'admob.consentTitle': 'Personalized Ads',
+    'admob.consentMessage': 'We use ads to support this free game. Allow personalized ads?',
+    'admob.accept': 'Accept',
+    'admob.decline': 'No thanks',
+
+    // Branding
+    'branding.footer': 'An Octile Universe game',
+    'branding.octileLink': 'Octile',
+
     // Lang toggle
     'lang.toggle': '\u4e2d\u6587',
   },
@@ -158,16 +189,57 @@ const translations = {
     'toast.hintApplied': '\u5df2\u5957\u7528\u63d0\u793a',
     'toast.restarted': '\u904a\u6232\u5df2\u91cd\u65b0\u958b\u59cb',
 
+    // Contact
+    'help.contactLabel': '\u806f\u7d61\uff1a',
+    'help.contactAlt': '\u5982\u679c\u90f5\u4ef6\u61c9\u7528\u7a0b\u5f0f\u7121\u6cd5\u958b\u555f\uff0c\u8acb\u767c\u9001\u90f5\u4ef6\u81f3\uff1aoctileapp@googlegroups.com',
+    'contact.email': 'octileapp@googlegroups.com',
+    'footer.contact': '\u806f\u7d61',
+
+    // Privacy & Feedback
+    'privacy.title': '\u96b1\u79c1\u653f\u7b56',
+    'feedback.title': '\u50b3\u9001\u610f\u898b\u56de\u994b',
+    'feedback.emailLabel': '\u96fb\u5b50\u90f5\u4ef6\uff08\u9078\u586b\uff09',
+    'feedback.messageLabel': '\u8a0a\u606f',
+    'feedback.submit': '\u50b3\u9001',
+    'feedback.screenshotLabel': '\u87a2\u5e55\u622a\u5716\uff08\u9078\u586b\uff09',
+
+    // OTA banner
+    'ota.updateAvailable': '\u53ef\u7528\u66f4\u65b0',
+    'ota.updateRequired': '\u9700\u8981\u66f4\u65b0\u624d\u80fd\u7e7c\u7e8c',
+    'ota.updateBtn': '\u66f4\u65b0',
+    'ota.later': '\u7a0d\u5f8c',
+    'ota.restart': '\u91cd\u65b0\u555f\u52d5',
+
+    // AdMob consent
+    'admob.consentTitle': '\u500b\u4eba\u5316\u5ee3\u544a',
+    'admob.consentMessage': '\u6211\u5011\u4f7f\u7528\u5ee3\u544a\u652f\u6301\u9019\u6b3e\u514d\u8cbb\u904a\u6232\u3002\u5141\u8a31\u500b\u4eba\u5316\u5ee3\u544a\u55ce\uff1f',
+    'admob.accept': '\u63a5\u53d7',
+    'admob.decline': '\u4e0d\u7528\u4e86',
+
+    // Branding
+    'branding.footer': 'Octile Universe \u904a\u6232',
+    'branding.octileLink': 'Octile',
+
     // Lang toggle
     'lang.toggle': 'EN',
   },
 };
 
-const STORAGE_KEY = 'map-lang';
+const GAME_ID = 'map';
+const NEW_LANG_KEY = `octile:${GAME_ID}:lang`;
+const OLD_LANG_KEY = 'map-lang'; // Old key used before standardization
+
 let currentLang = 'en';
 
 export function init() {
-  const saved = localStorage.getItem(STORAGE_KEY);
+  // Migration: Move old key to new game_id-scoped key
+  if (!localStorage.getItem(NEW_LANG_KEY) && localStorage.getItem(OLD_LANG_KEY)) {
+    const oldLang = localStorage.getItem(OLD_LANG_KEY);
+    localStorage.setItem(NEW_LANG_KEY, oldLang);
+    localStorage.removeItem(OLD_LANG_KEY);
+  }
+
+  const saved = localStorage.getItem(NEW_LANG_KEY);
   currentLang = (saved === 'zh') ? 'zh' : 'en';
 }
 
@@ -177,7 +249,7 @@ export function getLang() {
 
 export function setLang(lang) {
   currentLang = (lang === 'zh') ? 'zh' : 'en';
-  localStorage.setItem(STORAGE_KEY, currentLang);
+  localStorage.setItem(NEW_LANG_KEY, currentLang);
 }
 
 export function t(key) {
