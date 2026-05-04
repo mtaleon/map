@@ -672,3 +672,72 @@ body.dragging * {
 .btn-dismiss:hover {
   background: rgba(255, 255, 255, 0.3);
 }
+
+/* Help Modal Links */
+.help-links {
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 0.9em;
+  color: #aaa;
+}
+
+.help-links a {
+  color: #7986b8;
+  text-decoration: none;
+}
+
+.help-links a:hover {
+  text-decoration: underline;
+}
+
+.help-contact {
+  margin-top: 8px;
+  font-size: 0.85em;
+}
+
+.help-contact-alt {
+  margin-top: 4px;
+  font-size: 0.75em;
+  color: #888;
+}
+
+/* Footer */
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 12px 20px;
+  text-align: center;
+  background: rgba(15, 25, 35, 0.95);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  font-size: 0.8em;
+  color: #888;
+  z-index: 100;
+}
+
+.footer-text {
+  margin: 0 0 4px 0;
+}
+
+.footer-links {
+  margin: 0;
+}
+
+.footer-links a {
+  color: #7986b8;
+  text-decoration: none;
+  margin: 0 4px;
+}
+
+.footer-links a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .footer {
+    font-size: 0.7em;
+    padding: 8px 12px;
+  }
+}
