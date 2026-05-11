@@ -96,20 +96,32 @@ jobs:
           retention-days: 90
           if-no-files-found: error
 
+      - name: Verify build outputs for release
+        if: startsWith(github.ref, 'refs/tags/')
+        run: |
+          echo "=== All APKs and AABs ==="
+          find android -type f \( -name "*debug*.apk" -o -name "*release*.apk" -o -name "*.aab" \) -maxdepth 6 -exec ls -lh {} \;
+          echo ""
+          echo "=== What will be uploaded ==="
+          echo "Debug APKs: $(find android/app/build/outputs/apk/debug -name "*debug*.apk" 2>/dev/null | wc -l)"
+          echo "Release AABs: $(find android/app/build/outputs/bundle/release -name "*.aab" 2>/dev/null | wc -l)"
+          echo "Release APKs (NOT uploaded): $(find android/app/build/outputs/apk/release -name "*.apk" 2>/dev/null | wc -l)"
+
       - name: Create GitHub Release
         if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            android/app/build/outputs/apk/release/*.apk
+            android/app/build/outputs/apk/debug/*debug*.apk
             android/app/build/outputs/bundle/release/*.aab
           body: |
             ## Android Release
 
             **Play Store**: Upload the `.aab` file to Play Console (manual upload required)
-            **Sideload**: Install the `.apk` file directly
+            **Debug APK**: Development build for testing (debugging enabled)
 
-            ⚠️ Note: Creating this GitHub Release does NOT publish to Google Play.
-            The `.aab` must still be uploaded manually to Play Console.
+            ⚠️ **Important Notes:**
+            - Creating this GitHub Release does NOT publish to Google Play. The `.aab` must still be uploaded manually to Play Console.
+            - Debug APK may not install over the Play Store version (different signing key). Uninstall the Play Store version first if needed.
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
