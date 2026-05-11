@@ -6,6 +6,8 @@ import { WebRenderer } from './platforms/web-dom/Renderer.js';
 import { WebInput } from './platforms/web-dom/Input.js';
 import { WebStorage } from './platforms/web-dom/Storage.js';
 import { init as i18nInit, t, getLang, setLang } from './core/i18n.js';
+import { submitScore } from './core/api.js';
+import { getBrowserUUID } from './core/uuid.js';
 
 // Initialize i18n
 i18nInit();
@@ -18,6 +20,7 @@ const game = new Game(eventBus, storage);
 
 // Track current game configuration for "New Game" button
 let currentConfig = null;
+let currentPresetIndex = null; // Track preset index for score submission
 
 // Set palette button colors
 const palette = PALETTES[DEFAULT_PALETTE];
@@ -54,6 +57,23 @@ eventBus.on(EVENTS.VALIDATION_CHANGED, ({ remaining, moves }) => {
 
 eventBus.on(EVENTS.GAME_COMPLETED, (data) => {
   renderer.showCompletionModal(data);
+
+  // Submit score to unified backend
+  const timeMatch = data.time.match(/(\d+):(\d+)/);
+  const timeSeconds = timeMatch ? parseInt(timeMatch[1]) * 60 + parseInt(timeMatch[2]) : 0;
+
+  submitScore({
+    completion_time: timeSeconds,
+    moves: data.moves,
+    preset_index: currentPresetIndex,
+    regions: game.board?.regions?.length || currentConfig?.regions || 0,
+    browser_uuid: getBrowserUUID(),
+    timestamp_utc: new Date().toISOString(),
+    platform: window.Capacitor?.getPlatform?.() || 'web',
+    ota_version_code: window.otaVersion || 0,
+    app_version: 1,
+    build_channel: window.Capacitor?.isNativePlatform?.() ? 'store' : 'web'
+  }).catch(e => console.warn('Score submission error:', e));
 });
 
 eventBus.on(EVENTS.TOAST, ({ message, kind }) => {
@@ -121,6 +141,7 @@ document.querySelectorAll('.preset-btn[data-preset]').forEach(btn => {
     const preset = PRESETS[idx];
     if (!preset) return;
 
+    currentPresetIndex = idx; // Track for score submission
     document.getElementById('type-dropdown').classList.remove('open');
     startNewGame(preset);
   });
@@ -143,6 +164,7 @@ document.getElementById('custom-form').addEventListener('submit', (e) => {
     regions: parseInt(document.getElementById('custom-regions').value),
     difficulty: document.getElementById('custom-difficulty').value,
   };
+  currentPresetIndex = null; // Custom game, no preset
   customModal.classList.remove('visible');
   startNewGame(config);
 });
@@ -158,6 +180,7 @@ document.getElementById('help-close').addEventListener('click', () => {
 // --- Completion modal ---
 document.getElementById('completion-new').addEventListener('click', () => {
   document.getElementById('completion-modal').classList.remove('visible');
+  currentPresetIndex = 1; // Normal preset
   startNewGame(PRESETS[1]); // default Normal
 });
 
@@ -231,6 +254,7 @@ applyTranslations();
 // --- Startup ---
 if (!game.loadSavedGame()) {
   // Default: 20×15, 30 regions, Normal
+  currentPresetIndex = 1;
   startNewGame(PRESETS[1]);
 }
 
