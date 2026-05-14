@@ -91,6 +91,8 @@ const translations = {
     'feedback.messageLabel': 'Message',
     'feedback.submit': 'Send',
     'feedback.screenshotLabel': 'Screenshot (optional)',
+    'help.feedback': 'Feedback',
+    'help.privacy': 'Privacy',
 
     // OTA banner
     'ota.updateAvailable': 'Update available',
@@ -202,6 +204,8 @@ const translations = {
     'feedback.messageLabel': '\u8a0a\u606f',
     'feedback.submit': '\u50b3\u9001',
     'feedback.screenshotLabel': '\u87a2\u5e55\u622a\u5716\uff08\u9078\u586b\uff09',
+    'help.feedback': '\u610f\u898b\u56de\u994b',
+    'help.privacy': '\u96b1\u79c1\u653f\u7b56',
 
     // OTA banner
     'ota.updateAvailable': '\u53ef\u7528\u66f4\u65b0',
