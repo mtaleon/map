@@ -80,8 +80,8 @@ const translations = {
 
     // Contact
     'help.contactLabel': 'Contact:',
-    'help.contactAlt': 'If mail app doesn\'t open, please email us at: octileapp@googlegroups.com',
-    'contact.email': 'octileapp@googlegroups.com',
+    'help.contactAlt': 'If mail app doesn\'t open, please email us at: octileapp+map@googlegroups.com',
+    'contact.email': 'octileapp+map@googlegroups.com',
     'footer.contact': 'Contact',
 
     // Privacy & Feedback
@@ -191,8 +191,8 @@ const translations = {
 
     // Contact
     'help.contactLabel': '\u806f\u7d61\uff1a',
-    'help.contactAlt': '\u5982\u679c\u90f5\u4ef6\u61c9\u7528\u7a0b\u5f0f\u7121\u6cd5\u958b\u555f\uff0c\u8acb\u767c\u9001\u90f5\u4ef6\u81f3\uff1aoctileapp@googlegroups.com',
-    'contact.email': 'octileapp@googlegroups.com',
+    'help.contactAlt': '\u5982\u679c\u90f5\u4ef6\u61c9\u7528\u7a0b\u5f0f\u7121\u6cd5\u958b\u555f\uff0c\u8acb\u767c\u9001\u90f5\u4ef6\u81f3\uff1aoctileapp+map@googlegroups.com',
+    'contact.email': 'octileapp+map@googlegroups.com',
     'footer.contact': '\u806f\u7d61',
 
     // Privacy & Feedback
